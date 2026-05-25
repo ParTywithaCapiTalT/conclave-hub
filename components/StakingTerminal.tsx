@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAccount } from 'wagmi';
 import AscensionGate from './AscensionGate';
-import { useStakingSimulation } from '@/hooks/useStakingSimulation';
+import { useStakingSimulation } from '../hooks/useStakingSimulation';
 
 export default function StakingTerminal() {
   const { isConnected } = useAccount();
