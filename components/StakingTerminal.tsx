@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAccount } from 'wagmi';
 import AscensionGate from './AscensionGate';
+// Fixed: Using relative pathing for flat root layout
 import { useStakingSimulation } from '../hooks/useStakingSimulation';
 
 export default function StakingTerminal() {
@@ -13,8 +14,10 @@ export default function StakingTerminal() {
   const { estimatedReward, totalReturn, apy } = useStakingSimulation(amount, days);
 
   return (
-    <div className="glass p-8 rounded-3xl border border-[#22d3ee]/30">
-      <h2 className="title-font text-3xl text-[#eab308] mb-8">ASCENSION TERMINAL</h2>
+    // Responsive outer padding
+    <div className="glass p-5 sm:p-8 rounded-3xl border border-[#22d3ee]/30">
+      {/* Responsive heading text size */}
+      <h2 className="title-font text-2xl md:text-3xl text-[#eab308] mb-8">ASCENSION TERMINAL</h2>
 
       {!isConnected ? (
         <AscensionGate />
@@ -74,3 +77,4 @@ export default function StakingTerminal() {
     </div>
   );
 }
+
