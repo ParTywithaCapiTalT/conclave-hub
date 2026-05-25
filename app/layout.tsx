@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import './globals.css';
+import './import '../app/globals.css';
 
 export const metadata: Metadata = {
   title: 'The Conclave • AllSaint Oracle',
