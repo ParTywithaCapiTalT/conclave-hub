@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import './import '../app/globals.css';
+import '../app/globals.css';
 
 export const metadata: Metadata = {
   title: 'The Conclave • AllSaint Oracle',
-  description: '$SAINT | Staking for Ascension',
+  description: 'Bioluminescent governance and staking arena',
 };
 
 export default function RootLayout({
@@ -12,8 +12,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className="bg-[#0a0a1f] text-white">{children}</body>
+    <html lang="en">
+      <body>{children}</body>
     </html>
   );
 }
