@@ -1,8 +1,10 @@
 'use client';
 
-import SaintTicker from '@/components/SaintTicker';
-import StakingTerminal from '@/components/StakingTerminal';
-import SubmitProposal from '@/components/SubmitProposal';
+// Change these three lines to:
+import SaintTicker from '../components/SaintTicker';
+import StakingTerminal from '../components/StakingTerminal';
+import SubmitProposal from '../components/SubmitProposal';
+
 
 export default function Home() {
   return (
