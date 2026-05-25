@@ -11,3 +11,8 @@ body {
 .title-font {
   font-family: 'Cinzel', serif;
 }
+
+.glass {
+  background: rgba(10, 10, 31, 0.85);
+  backdrop-filter: blur(16px);
+}
