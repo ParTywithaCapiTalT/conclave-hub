@@ -7,7 +7,7 @@ export default function SaintTicker() {
   const [members, setMembers] = useState(1247);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const priceInterval = setInterval(() => {
       setPrice(p => Math.max(1.35, Math.min(1.52, Number((p + (Math.random() - 0.5) * 0.012).toFixed(4)))));
     }, 4200);
 
@@ -16,7 +16,7 @@ export default function SaintTicker() {
     }, 8700);
 
     return () => {
-      clearInterval(interval);
+      clearInterval(priceInterval);
       clearInterval(memberInterval);
     };
   }, []);
@@ -27,16 +27,18 @@ export default function SaintTicker() {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="flex flex-wrap gap-8 justify-center md:justify-start text-sm font-mono border border-[#22d3ee]/20 bg-[#0a0a1f]/70 backdrop-blur-md p-6 rounded-2xl"
+      className="flex flex-wrap gap-6 md:gap-8 justify-center md:justify-start text-sm font-mono border border-[#22d3ee]/20 bg-[#0a0a1f]/70 backdrop-blur-md p-6 rounded-2xl w-full"
     >
       <div>
-        <div className="text-cyan-400 text-xs tracking-widest">$SAINT PRICE</div>
+        <div className="text-cyan-400 text-xs tracking-widest"> $SAINT PRICE </div>
         <div className="text-3xl text-white tabular-nums">${price}</div>
-        <div className={`${priceChange.startsWith('-') ? 'text-red-400' : 'text-emerald-400'} text-xs`}>{priceChange}% • LIVE</div>
+        <div className={`${priceChange.startsWith('-') ? 'text-red-400' : 'text-emerald-400'} text-xs`}>
+          {priceChange}% • LIVE
+        </div>
       </div>
 
       <div>
-        <div className="text-cyan-400 text-xs tracking-widest">ASCENDANTS</div>
+        <div className="text-cyan-400 text-xs tracking-widest"> ASCENDANTS </div>
         <div className="text-3xl text-white tabular-nums">{members.toLocaleString()}</div>
       </div>
     </motion.div>
