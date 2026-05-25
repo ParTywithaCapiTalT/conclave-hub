@@ -1,10 +1,9 @@
 'use client';
 
-// Change these three lines to:
+// Fixed: Using relative paths to jump up to the root-level components folder
 import SaintTicker from '../components/SaintTicker';
 import StakingTerminal from '../components/StakingTerminal';
 import SubmitProposal from '../components/SubmitProposal';
-
 
 export default function Home() {
   return (
