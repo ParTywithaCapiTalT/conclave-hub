@@ -16,6 +16,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* Injecting the stable compiled production utility engine directly to the browser head */}
+        <link 
+          rel="stylesheet" 
+          href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" 
+        />
+      </head>
       <body>
         <Providers>{children}</Providers>
       </body>
