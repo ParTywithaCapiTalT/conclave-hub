@@ -9,15 +9,17 @@ export default function AscensionGate() {
 
   if (isConnected && address) {
     return (
-      <div className="glass p-6 rounded-2xl text-center">
+      <div className="glass p-6 rounded-2xl text-center w-full">
         <div className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse mx-auto mb-3"></div>
-        <p className="text-[#eab308] font-mono">ASCENDED</p>
-        <p className="text-cyan-300 text-sm font-mono mt-1">
-          {address.slice(0, 6)}...{address.slice(-4)}
+        
+        <p className="text-[#eab308] font-mono text-sm mb-1">ASCENDED</p>
+        <p className="text-cyan-300 font-mono text-xs break-all">
+          {address}
         </p>
+        
         <button 
           onClick={() => disconnect()}
-          className="mt-4 text-red-400 text-sm hover:underline"
+          className="mt-6 text-red-400 hover:text-red-500 text-sm underline transition-colors"
         >
           Sever Connection
         </button>
@@ -26,16 +28,18 @@ export default function AscensionGate() {
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 w-full">
       {connectors.map((connector) => (
         <motion.button
           key={connector.id}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => connect({ connector })}
-          className="w-full bg-gradient-to-r from-[#22d3ee] to-cyan-400 text-black font-bold py-4 rounded-xl"
+          className="w-full bg-gradient-to-r from-[#22d3ee] to-cyan-400 hover:from-cyan-300 hover:to-[#eab308] 
+                     text-[#0a0a1f] font-bold py-4 px-6 rounded-2xl text-sm uppercase tracking-widest
+                     transition-all duration-200"
         >
-          Connect with {connector.name}
+          {connector.name} • Enter Conclave
         </motion.button>
       ))}
     </div>
