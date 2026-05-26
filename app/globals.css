@@ -1,16 +1,19 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* Emergency hardware-painted fallback layer */
 html, body {
-  background-color: #0a0a1f !important;
+  background-color: #0a0a0f !important;
   color: #ffffff !important;
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  font-family: ui-monospace, monospace;
+  font-family: monospace;
 }
 
 .glass {
-  background: rgba(15, 23, 42, 0.85) !important;
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(103, 232, 249, 0.25) !important;
+  background: rgba(10, 10, 31, 0.7) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(34, 211, 238, 0.2) !important;
 }
