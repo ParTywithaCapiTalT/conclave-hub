@@ -1,11 +1,16 @@
 @import "tailwindcss";
 
 html, body {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #0a0a1f !important;
+  color: #ffffff !important;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
   font-family: ui-monospace, monospace;
 }
 
-@theme {
-  --font-sans: ui-monospace, monospace;
+.glass {
+  background: rgba(15, 23, 42, 0.85) !important;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(103, 232, 249, 0.25) !important;
 }
