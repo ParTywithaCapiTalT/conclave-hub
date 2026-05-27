@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import { Providers } from './providers';
+import Web3Providers from './providers';
 import './globals.css';
 
 export const metadata: Metadata = {
   title: 'AllSaint Oracle — $SAINT',
-  description: 'The sacred oracle bridging the conclave of saints with on-chain truth.',
+  description: 'High-fidelity cyber-liturgical oracle platform on Base.',
 };
 
 export default function RootLayout({
@@ -13,10 +13,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body className="grain stained">
-        <div className="nave-beams" />
-        <Providers>{children}</Providers>
+        {/* The nave-beams class renders Emergent's custom diagonal cathedral light sweep */}
+        <div className="nave-beams" /> 
+        <Web3Providers>
+          {children}
+        </Web3Providers>
       </body>
     </html>
   );
