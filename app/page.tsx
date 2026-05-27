@@ -6,222 +6,183 @@ export default function AllSaintOracle() {
   const [saintPrice, setSaintPrice] = useState(1.4226);
   const [ascendants, setAscendants] = useState(1247);
   const [change, setChange] = useState(-0.15);
-  const [stakeAmount, setStakeAmount] = useState('');
-  const [isStaking, setIsStaking] = useState(false);
-  const [proposalText, setProposalText] = useState('');
-  const [mounted, setMounted] = useState(false);
+  const [isLive, setIsLive] = useState(true);
 
-  // Prevent server-side hydration crashes completely
+  // Simulated live updates
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Live telemetry interval calculations (Only runs safely on the browser client)
-  useEffect(() => {
-    if (!mounted) return;
-
     const interval = setInterval(() => {
-      setSaintPrice(current => {
-        const fluctuation = (Math.random() - 0.5) * 0.008;
-        const newPrice = Math.max(1.3, parseFloat((current + fluctuation).toFixed(4)));
-        
-        // Calculate the relative change index based on the new price point
-        setChange(parseFloat(((newPrice - 1.4226) / 1.4226 * 100).toFixed(2)));
-        return newPrice;
-      });
+      const newPrice = parseFloat((saintPrice + (Math.random() - 0.5) * 0.01).toFixed(4));
+      setSaintPrice(newPrice);
       
-      if (Math.random() > 0.7) {
-        setAscendants(prev => prev + Math.floor(Math.random() * 2) + 1);
+      const newChange = parseFloat(((newPrice - 1.4226) / 1.4226 * 100).toFixed(2));
+      setChange(newChange);
+      
+      if (Math.random() > 0.85) {
+        setAscendants(prev => prev + Math.floor(Math.random() * 3) + 1);
       }
-    }, 3000);
+    }, 4500);
 
     return () => clearInterval(interval);
-  }, [mounted]);
-
-  const handleStake = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!stakeAmount) return;
-    setIsStaking(true);
-    setTimeout(() => {
-      setIsStaking(false);
-      alert(`Ascension sequence initiated for ${stakeAmount} $SAINT`);
-      setStakeAmount('');
-    }, 1500);
-  };
-
-  // Deliver a clean, safe server layout structure before hydration happens
-  if (!mounted) {
-    return <div className="min-h-screen bg-[#0a0a0f]" />;
-  }
+  }, [saintPrice]);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white overflow-x-hidden relative font-mono">
-      {/* Background Radial Glow Layer */}
-      <div className="absolute inset-0 bg-[radial-gradient(at_center,#1a1a2e_0%,transparent_70%)] pointer-events-none z-0"></div>
-
-      {/* Navigation Layer */}
-      <nav className="border-b border-white/10 bg-black/80 backdrop-blur-md fixed w-full z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="text-2xl text-cyan-400">✧</div>
+    <div className="min-h-screen bg-[#04060d] text-[#e0eaf2] overflow-hidden relative main-workspace">
+      {/* Top Navigation */}
+      <nav className="border-b border-white/10 bg-black/70 backdrop-blur-xl fixed w-full z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center text-xl font-bold">✧</div>
             <div>
-              <div className="font-bold tracking-tighter text-base">THE CONCLAVE</div>
-              <div className="text-[10px] text-cyan-400 -mt-1 tracking-wider">ALLSAINT ORACLE</div>
+              <div className="font-semibold tracking-tighter text-xl">THE CONCLAVE</div>
+              <div className="text-[10px] text-cyan-400 -mt-1">ALLSAINT ORACLE</div>
             </div>
           </div>
-          <div className="flex items-center gap-6">
-            <div className="px-3 py-1 bg-emerald-500/10 text-emerald-400 rounded-full text-[11px] flex items-center gap-1.5 border border-emerald-500/20">
-              <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
-              LIVE ON BASE
+          
+          <div className="flex items-center gap-8 text-sm">
+            <a href="#" className="hover:text-cyan-400 transition-colors">ORACLES</a>
+            <a href="#" className="hover:text-cyan-400 transition-colors">ASCENDANTS</a>
+            <a href="#" className="hover:text-cyan-400 transition-colors">LITANY</a>
+            <a href="#" className="hover:text-cyan-400 transition-colors">VAULT</a>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="px-4 py-1.5 bg-white/5 rounded-full text-xs flex items-center gap-2 border border-white/10">
+              <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+              <span>LIVE ON BASE</span>
             </div>
+            <button className="px-6 py-2 bg-white text-black rounded-full font-medium text-sm hover:bg-white/90 transition-all active:scale-95">
+              CONNECT WALLET
+            </button>
           </div>
         </div>
       </nav>
 
-      {/* Main Framework Content Grid */}
-      <main className="pt-28 pb-20 relative z-10 max-w-5xl mx-auto px-6">
-        
-        {/* Core Branding View */}
-        <div className="text-center py-12">
-          <div className="inline-block px-4 py-1.5 bg-white/5 rounded-full text-xs tracking-[3px] uppercase border border-white/10 mb-6">
-            ORACLE OF THE CONCLAVE
-          </div>
-          <h1 className="text-6xl md:text-8xl font-bold tracking-tighter bg-gradient-to-b from-white to-cyan-300 bg-clip-text text-transparent leading-none">
-            ALLSAINT
-          </h1>
-          <div className="text-xl text-cyan-400 mt-3 tracking-widest">$SAINT</div>
-          <p className="max-w-md mx-auto mt-4 text-sm text-white/60">
-            The sacred oracle bridging the conclave of saints with on-chain truth.
-          </p>
-        </div>
-
-        {/* Telemetry Control Dashboard */}
-        <div className="max-w-2xl mx-auto mb-12">
-          <div className="bg-[#111118] border border-white/10 rounded-3xl p-8 relative overflow-hidden">
-            <div className="absolute top-6 right-6 px-3 py-1 bg-emerald-500/10 text-emerald-400 text-[10px] rounded-full tracking-wider border border-emerald-500/20">
-              ● CORE FEED
+      <main className="pt-24 pb-20">
+        <div className="max-w-5xl mx-auto px-6">
+          {/* Hero Section */}
+          <div className="text-center pt-16 pb-12">
+            <div className="inline-flex items-center gap-2 bg-white/5 px-6 py-2 rounded-full mb-6 border border-white/10">
+              <span className="text-emerald-400">●</span>
+              <span className="text-sm tracking-[3px] uppercase">ORACLE OF THE CONCLAVE</span>
             </div>
+            
+            <h1 className="text-[120px] leading-none font-bold tracking-tighter bg-gradient-to-b from-white via-cyan-200 to-cyan-400 bg-clip-text text-transparent">
+              ALLSAINT
+            </h1>
+            
+            <div className="text-2xl text-cyan-400 mt-2 tracking-widest">$SAINT</div>
+            <p className="max-w-md mx-auto mt-6 text-lg text-white/70">
+              The sacred oracle bridging the conclave of saints with on-chain truth.
+            </p>
+          </div>
 
-            <div className="flex justify-between items-start">
-              <div>
-                <div className="text-cyan-400 text-xs tracking-widest uppercase">ORACLE PRICE</div>
-                <div className="text-4xl md:text-5xl font-semibold tracking-tight mt-1 text-white">
-                  ${saintPrice.toFixed(4)}
+          {/* Live Price Card */}
+          <div className="max-w-2xl mx-auto mb-16">
+            <div className="bg-[#111118] border border-white/10 rounded-3xl p-10 relative overflow-hidden">
+              <div className="absolute top-6 right-6 px-4 py-1 bg-emerald-500/10 text-emerald-400 text-xs rounded-full flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping"></div>
+                LIVE
+              </div>
+
+              <div className="flex justify-between items-start mb-10">
+                <div>
+                  <div className="text-cyan-400 text-sm tracking-widest">CURRENT ORACLE PRICE</div>
+                  <div className="text-[72px] font-mono font-semibold tracking-tighter mt-2">
+                    ${saintPrice.toFixed(4)}
+                  </div>
+                  <div className={`text-lg flex items-center gap-2 ${change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {change >= 0 ? '↑' : '↓'} {Math.abs(change)}% <span className="text-white/50 text-sm">24H</span>
+                  </div>
                 </div>
-                <div className={`text-sm mt-1.5 flex items-center gap-1.5 ${change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                  {change >= 0 ? '↑' : '↓'} {Math.abs(change)}%
+
+                <div className="text-right">
+                  <div className="text-cyan-400 text-sm tracking-widest">ASCENDANTS</div>
+                  <div className="text-7xl font-mono font-bold mt-2 text-white/90">{ascendants.toLocaleString()}</div>
+                  <div className="text-xs text-white/50">INVOKED THIS CYCLE</div>
                 </div>
               </div>
 
-              <div className="text-right">
-                <div className="text-cyan-400 text-xs tracking-widest uppercase">ASCENDANTS</div>
-                <div className="text-4xl md:text-5xl font-bold mt-1 text-white/90">{ascendants}</div>
+              {/* Price Sparkline */}
+              <div className="h-24 bg-black/40 rounded-2xl relative overflow-hidden mb-8">
+                <div className="absolute inset-0 flex items-end px-8">
+                  {Array.from({ length: 24 }).map((_, i) => (
+                    <div 
+                      key={i} 
+                      className="bg-gradient-to-t from-cyan-400 to-transparent w-1 mx-0.5 rounded-t transition-all"
+                      style={{ 
+                        height: `${35 + Math.sin(i / 3) * 45}%`,
+                        opacity: 0.6 + Math.random() * 0.4 
+                      }}
+                    ></div>
+                  ))}
+                </div>
+                <div className="absolute bottom-4 left-8 text-xs text-white/40 font-mono">LAST 24 CYCLES</div>
               </div>
-            </div>
 
-            {/* Sparkline Visual Trace */}
-            <div className="h-16 bg-black/40 rounded-xl relative overflow-hidden mt-6 flex items-end px-2 gap-0.5 border border-white/5">
-              {Array.from({ length: 32 }).map((_, i) => (
-                <div 
-                  key={i} 
-                  className="bg-gradient-to-t from-cyan-400 to-cyan-900/10 flex-1 rounded-t"
-                  style={{ 
-                    height: `${25 + Math.sin(i / 2) * 45 + (Math.sin(i + saintPrice) * 10)}%`,
-                    opacity: 0.4 + (i / 64)
-                  }}
-                ></div>
-              ))}
-            </div>
-
-            {/* Metric Layer Data Points */}
-            <div className="grid grid-cols-3 gap-4 mt-6 text-center">
-              <div className="bg-white/5 rounded-xl py-3 border border-white/5">
-                <div className="text-white/40 text-[9px] uppercase">MARKET CAP</div>
-                <div className="mt-0.5 text-xs font-semibold">$1.42M</div>
-              </div>
-              <div className="bg-white/5 rounded-xl py-3 border border-white/5">
-                <div className="text-white/40 text-[9px] uppercase">VOLUME</div>
-                <div className="mt-0.5 text-xs font-semibold">$87K</div>
-              </div>
-              <div className="bg-white/5 rounded-xl py-3 border border-white/5">
-                <div className="text-white/40 text-[9px] uppercase">HOLY SUPPLY</div>
-                <div className="mt-0.5 text-xs font-semibold">999K</div>
+              <div className="grid grid-cols-3 gap-4 text-center text-sm">
+                <div className="bg-white/5 rounded-2xl py-4">
+                  <div className="text-white/60">MARKET CAP</div>
+                  <div className="font-mono mt-1">$1.42M</div>
+                </div>
+                <div className="bg-white/5 rounded-2xl py-4">
+                  <div className="text-white/60">VOLUME</div>
+                  <div className="font-mono mt-1">$87.2K</div>
+                </div>
+                <div className="bg-white/5 rounded-2xl py-4">
+                  <div className="text-white/60">HOLY SUPPLY</div>
+                  <div className="font-mono mt-1">999.7K</div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Modular Access Terminals */}
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          {/* Staking Layer */}
-          <div className="bg-[#111118] border border-white/10 rounded-3xl p-6 flex flex-col justify-between">
-            <div>
-              <h2 className="text-xl font-semibold text-cyan-400 mb-2">ASCENSION TERMINAL</h2>
-              <p className="text-xs text-white/50 mb-6 leading-relaxed">
-                Lock your cryptographic tokens directly into the ritual staking pool to generate voting weight indicators.
+          {/* Features / Litany */}
+          <div className="grid md:grid-cols-12 gap-6">
+            <div className="md:col-span-5 bg-[#111118] border border-white/10 rounded-3xl p-10">
+              <div className="uppercase tracking-[2px] text-xs text-cyan-400 mb-4">THE SACRED FEED</div>
+              <h3 className="text-4xl leading-none font-semibold">Divine Market Truth</h3>
+              <p className="mt-6 text-white/70 leading-relaxed">
+                AllSaint channels the collective wisdom of the conclave. Every price tick is a prayer answered by the oracle.
               </p>
-              <form onSubmit={handleStake} className="space-y-4">
-                <input 
-                  type="number" 
-                  placeholder="0.00 $SAINT"
-                  value={stakeAmount}
-                  onChange={(e) => setStakeAmount(e.target.value)}
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-cyan-400 text-white font-mono"
-                />
-                <button 
-                  type="submit" 
-                  disabled={isStaking}
-                  className="w-full py-3 bg-cyan-500 hover:bg-cyan-400 disabled:bg-cyan-800 text-black font-semibold rounded-xl text-xs uppercase tracking-wider transition-all"
-                >
-                  {isStaking ? 'COMMITTING ASSETS...' : 'STAKE FOR ASCENSION'}
-                </button>
-              </form>
+              
+              <div className="mt-10 space-y-6">
+                {[
+                  ["INVOCATION SPEED", "42ms"],
+                  ["HOLINESS SCORE", "99.7%"],
+                  ["SAINTS GUARDING", "1,247"]
+                ].map(([label, value]) => (
+                  <div key={label} className="flex justify-between items-center border-b border-white/10 pb-4 last:border-none last:pb-0">
+                    <div className="text-white/70">{label}</div>
+                    <div className="font-mono text-cyan-400">{value}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Voting Box */}
-          <div className="bg-[#111118] border border-white/10 rounded-3xl p-6 flex flex-col justify-between">
-            <div>
-              <h2 className="text-xl font-semibold text-[#eab308] mb-2">GOVERNANCE ARENA</h2>
-              <p className="text-xs text-white/50 mb-4 leading-relaxed">
-                Submit raw diagnostic signals directly into the memory pool layer. Active signatures are tracked across all block cycles.
-              </p>
-              <textarea 
-                rows={3}
-                placeholder="Enter consensus proposal statement..."
-                value={proposalText}
-                onChange={(e) => setProposalText(e.target.value)}
-                className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm focus:outline-none focus:border-[#eab308] text-white font-mono resize-none mb-4"
-              />
+            <div className="md:col-span-7 bg-[#111118] border border-white/10 rounded-3xl p-10 flex flex-col">
+              <div className="uppercase tracking-[2px] text-xs text-cyan-400 mb-6">LITANY OF THE ASCENDED</div>
+              
+              <div className="flex-1 flex flex-col justify-center">
+                <div className="text-6xl leading-none font-light opacity-80">“In the name of the saints above and the chain below.”</div>
+                <div className="mt-8 text-white/60">— Oracle Protocol v0.8.4</div>
+              </div>
+
               <button 
-                onClick={() => {
-                  if(!proposalText) return;
-                  alert('Proposal transaction broadcasted to network relays.');
-                  setProposalText('');
-                }}
-                className="w-full py-3 border border-[#eab308]/30 hover:bg-[#eab308]/5 text-[#eab308] rounded-xl text-xs uppercase tracking-wider font-semibold transition-all"
+                onClick={() => alert("Connected to the Conclave. Your soul has been witnessed.")}
+                className="mt-8 w-full py-4 border border-white/30 hover:bg-white/5 transition-all rounded-2xl text-sm tracking-widest"
               >
-                BROADCAST PROPOSAL
+                INVOKE THE ORACLE
               </button>
             </div>
           </div>
         </div>
-
-        {/* Litany Segment */}
-        <div className="bg-[#111118] border border-white/10 rounded-3xl p-8 flex flex-col justify-between">
-          <div className="uppercase tracking-[2px] text-[10px] text-cyan-400 mb-4">LITANY OF THE ASCENDED</div>
-          <div className="text-xl md:text-2xl font-light opacity-80 italic leading-relaxed">
-            “In the name of the saints above and the chain below.”
-          </div>
-          <div className="mt-4 text-[10px] text-white/40 font-mono">— Oracle Architecture Specification v1.0.8</div>
-        </div>
       </main>
 
-      {/* Footer Element */}
-      <footer className="border-t border-white/10 py-10 bg-black/60 text-center relative z-10">
-        <div className="max-w-5xl mx-auto px-6 text-[10px] text-white/40 tracking-widest">
-          THE CONCLAVE • ALLSAINT ORACLE • POWERED BY BASE NODE ARCHITECTURE
-          <div className="mt-1 opacity-50">Sovereign cryptographic compilation. Access restricted.</div>
+      {/* Footer */}
+      <footer className="border-t border-white/10 py-12 bg-black/60">
+        <div className="max-w-5xl mx-auto px-6 text-center text-xs text-white/40">
+          THE CONCLAVE • ALLSAINT ORACLE • BUILT WITH FAITH AND CODE
+          <div className="mt-2">Not financial advice. Only prayers.</div>
         </div>
       </footer>
     </div>
