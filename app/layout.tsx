@@ -11,14 +11,12 @@ export default function AllSaintOracle() {
   // Simulated live updates
   useEffect(() => {
     const interval = setInterval(() => {
-      // Random small price fluctuation
       const newPrice = parseFloat((saintPrice + (Math.random() - 0.5) * 0.01).toFixed(4));
       setSaintPrice(newPrice);
       
       const newChange = parseFloat(((newPrice - 1.4226) / 1.4226 * 100).toFixed(2));
       setChange(newChange);
       
-      // Occasional ascendant increase
       if (Math.random() > 0.85) {
         setAscendants(prev => prev + Math.floor(Math.random() * 3) + 1);
       }
@@ -28,11 +26,7 @@ export default function AllSaintOracle() {
   }, [saintPrice]);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white overflow-hidden relative">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(at_center,#1a1a2e_0%,transparent_70%)]"></div>
-      <div className="absolute inset-0 opacity-20 bg-[repeating-linear-gradient(45deg,#ffffff_0,#ffffff_2px,transparent_2px,transparent_40px)]"></div>
-
+    <div className="min-h-screen bg-[#04060d] text-[#e0eaf2] overflow-hidden relative main-workspace">
       {/* Top Navigation */}
       <nav className="border-b border-white/10 bg-black/70 backdrop-blur-xl fixed w-full z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
