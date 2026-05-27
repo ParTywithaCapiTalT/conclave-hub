@@ -1,20 +1,33 @@
 'use client';
-import { createConfig, http, WagmiProvider } from 'wagmi';
-import { mainnet } from 'wagmi/chains';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useState } from 'react';
 
-// Define a minimal, basic config so the hooks don't panic during build phase
-const config = createConfig({
-  chains: [mainnet],
-  transports: {
-    [mainnet.id]: http(),
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { WagmiProvider, createConfig, http } from 'wagmi';
+import { base } from 'wagmi/chains';
+import { injected, coinbaseWallet } from 'wagmi/connectors';
+import { ReactNode } from 'react';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { refetchOnWindowFocus: false, retry: 1 },
   },
 });
 
-export default function Providers({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
+const config = createConfig({
+  chains: [base],
+  transports: {
+    [base.id]: http('https://mainnet.base.org'),
+  },
+  connectors: [
+    injected({ shimDisconnect: true }),
+    coinbaseWallet({
+      appName: 'AllSaint Oracle',
+      appLogoUrl: '/oracle-portrait.jpg',
+      preference: 'smartWalletOnly',
+    }),
+  ],
+});
 
+export function Providers({ children }: { children: ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
